@@ -1,7 +1,7 @@
 package com.bowspleef.command;
 
-import com.bowspleef.game.BowSpleefPlayer;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +18,10 @@ public class Commands {
         commandList = commands;
     }
 
-    public static void displayCommands(BowSpleefPlayer player) {
+    public static void displayCommands(Player player) {
         for (Command command : commandList) {
             if (player.hasPermission(command.getPermission())) {
-                player.sendMessage(ChatColor.GOLD.toString() + ChatColor.BOLD + ">> " + command.getDisplayUsage());
+                player.sendMessage(ChatColor.GOLD.toString() + ChatColor.BOLD + "> " + command.getDisplayUsage());
             }
         }
     }

@@ -7,7 +7,7 @@ public class HelpCommand extends Command {
     public HelpCommand() {
         setName("help");
         setAlias("?");
-        setBePlayer(false);
+        setBePlayer(true);
         setPermission("bowspleef.player.help");
         setUsage("");
         setDescription("View BowSpleef commands.");

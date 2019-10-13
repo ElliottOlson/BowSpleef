@@ -1,6 +1,5 @@
 package com.bowspleef.command;
 
-import com.bowspleef.game.BowSpleefPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,7 +16,7 @@ public abstract class Command {
     protected String alias;
     protected CommandSender sender;
     protected boolean bePlayer;
-    protected BowSpleefPlayer player;
+    protected Player player;
     protected String permission;
 
     public CommandResult run(CommandSender sender, String command, String[] preArgs) {
@@ -35,7 +34,7 @@ public abstract class Command {
                 return CommandResult.NOT_PLAYER;
             }
 
-            setPlayer((BowSpleefPlayer) sender);
+            setPlayer((Player) sender);
         }
 
         if (!sender.hasPermission(getPermission())) {
@@ -113,11 +112,11 @@ public abstract class Command {
         this.bePlayer = bePlayer;
     }
 
-    public BowSpleefPlayer getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
-    public void setPlayer(BowSpleefPlayer player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 

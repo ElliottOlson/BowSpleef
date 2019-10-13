@@ -2,3 +2,10 @@ name: BowSpleef
 version: 2.0.0
 main: com.bowspleef.BowSpleef
 api-version: 1.14
+commands:
+  bs:
+
+permissions:
+  bowspleef.player.*:
+    description: Gives access to basic BowSpleef commands and features.
+    default: true

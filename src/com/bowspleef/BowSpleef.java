@@ -11,7 +11,8 @@ import java.io.File;
 
 public class BowSpleef extends JavaPlugin {
 
-    public static File arenaFile = new File("arena.yml");
+    public static final String PATH = "plugins/BowSpleef";
+    public static File arenaFile = new File(PATH + "/arena.yml");
     public static FileConfiguration arenaFileConfiguration = YamlConfiguration.loadConfiguration(arenaFile);
 
     @Override
@@ -34,6 +35,16 @@ public class BowSpleef extends JavaPlugin {
         getLogger().info("BowSpleef is disabled.");
     }
 
+    public static void setupConfigurationFiles() {
+        if (!arenaFile.exists()) {
+            try {
+                arenaFile.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void saveConfigurationFiles() {
         try {
             arenaFileConfiguration.save(arenaFile);
@@ -44,7 +55,13 @@ public class BowSpleef extends JavaPlugin {
 
     public static void loadConfigurationFiles() {
         try {
+
+            if (!arenaFile.exists()) {
+                arenaFile.createNewFile();
+            }
+
             arenaFileConfiguration.load(arenaFile);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

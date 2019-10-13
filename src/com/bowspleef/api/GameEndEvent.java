@@ -1,6 +1,5 @@
 package com.bowspleef.api;
 
-import com.bowspleef.game.BowSpleefPlayer;
 import com.bowspleef.game.Game;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

@@ -2,6 +2,8 @@ package com.bowspleef.game;
 
 import com.bowspleef.BowSpleef;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class Game {
 
     private String name;
     private GameState state;
+    private Arena arena;
     private int minPlayers;
     private int maxPlayers;
 
@@ -19,12 +22,56 @@ public class Game {
         this.name = name;
     }
 
+    public void join(BowSpleefPlayer player) {
+        if (!player.hasPermission("bowspleef.player.join")) {
+            player.sendMessage(BowSpleefPlayer.MessageType.ERROR, "You do not have permission to join a game.");
+            return;
+        }
+
+        if (getState() == GameState.NOTSETUP) {
+            player.sendMessage(BowSpleefPlayer.MessageType.ERROR, "This game is not yet setup.");
+            return;
+        }
+
+        //TODO: Check to see if the Player is in a game.
+
+        if (getState() == GameState.LOBBY || getState() == GameState.STARTING) {
+
+            if (getPlayers().size() == getMaxPlayers()) {
+                player.sendMessage(BowSpleefPlayer.MessageType.ERROR, "This game is already full. Try another.");
+                return;
+            }
+
+            player.saveInventory();
+            player.setGameMode(GameMode.SURVIVAL);
+            player.setFoodLevel(20);
+            player.setHealth(20);
+
+            Location returnLocation = player.getLocation();
+            BowSpleef.playerFileConfiguration.set(player.getName() + ".return.world", returnLocation.getWorld().getName());
+            BowSpleef.playerFileConfiguration.set(player.getName() + ".return.x", returnLocation.getBlockX());
+            BowSpleef.playerFileConfiguration.set(player.getName() + ".return.y", returnLocation.getBlockY());
+            BowSpleef.playerFileConfiguration.set(player.getName() + ".return.z", returnLocation.getBlockZ());
+
+
+
+        }
+    }
+
+    public void leave(BowSpleefPlayer player) {
+
+    }
+
     public String getName() {
         return name;
     }
 
     public GameState getState() {
         return state;
+    }
+
+    public Arena getArena() {
+        return arena;
     }
 
     public int getMinPlayers() {

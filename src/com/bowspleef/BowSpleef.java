@@ -3,6 +3,7 @@ package com.bowspleef;
 import com.bowspleef.command.CommandProcessor;
 import com.bowspleef.command.Commands;
 import com.bowspleef.command.HelpCommand;
+import com.bowspleef.game.GameListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,7 +15,8 @@ public class BowSpleef extends JavaPlugin {
     public static final String PATH = "plugins/BowSpleef";
     public static File arenaFile = new File(PATH + "/arena.yml");
     public static FileConfiguration arenaFileConfiguration = YamlConfiguration.loadConfiguration(arenaFile);
-
+    public static File playerFile = new File(PATH + "/players.yml");
+    public static FileConfiguration playerFileConfiguration = YamlConfiguration.loadConfiguration(arenaFile);
     @Override
     public void onEnable() {
 
@@ -23,6 +25,8 @@ public class BowSpleef extends JavaPlugin {
 
         getCommand("bs").setExecutor(new CommandProcessor());
         Commands.getCommandList().add(new HelpCommand());
+
+        getServer().getPluginManager().registerEvents(new GameListener(), this);
 
         getLogger().info("BowSpleef is enabled.");
     }
@@ -35,19 +39,10 @@ public class BowSpleef extends JavaPlugin {
         getLogger().info("BowSpleef is disabled.");
     }
 
-    public static void setupConfigurationFiles() {
-        if (!arenaFile.exists()) {
-            try {
-                arenaFile.createNewFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public static void saveConfigurationFiles() {
         try {
             arenaFileConfiguration.save(arenaFile);
+            playerFileConfiguration.save(playerFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,9 +53,11 @@ public class BowSpleef extends JavaPlugin {
 
             if (!arenaFile.exists()) {
                 arenaFile.createNewFile();
+                playerFile.createNewFile();
             }
 
             arenaFileConfiguration.load(arenaFile);
+            playerFileConfiguration.load(playerFile);
 
         } catch (Exception e) {
             e.printStackTrace();

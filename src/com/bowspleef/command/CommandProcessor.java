@@ -25,7 +25,7 @@ public class CommandProcessor implements CommandExecutor {
                     sender.sendMessage(ChatColor.RED.toString() + ChatColor.BOLD + ">> " +
                             ChatColor.GRAY + "You don't have permission to do that.");
                 } else if (result == CommandResult.NOT_PLAYER) {
-                    sender.sendMessage(ChatColor.RED.toString() + ChatColor.BOLD + ">> /bs" +
+                    sender.sendMessage(ChatColor.RED.toString() + ChatColor.BOLD + ">> " +
                             ChatColor.GRAY + "You must be a player to do that.");
                 }
 

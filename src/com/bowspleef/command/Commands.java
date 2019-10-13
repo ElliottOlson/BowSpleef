@@ -18,9 +18,9 @@ public class Commands {
         commandList = commands;
     }
 
-    public static void displayCommands(BowSpleefPlayer player){
-        for (Command command : commandList){
-            if (player.hasPermission(command.getPermission())){
+    public static void displayCommands(BowSpleefPlayer player) {
+        for (Command command : commandList) {
+            if (player.hasPermission(command.getPermission())) {
                 player.sendMessage(ChatColor.GOLD.toString() + ChatColor.BOLD + ">> " + command.getDisplayUsage());
             }
         }

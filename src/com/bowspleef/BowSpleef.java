@@ -1,5 +1,6 @@
 package com.bowspleef;
 
+import com.bowspleef.command.CommandProcessor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,6 +20,8 @@ public class BowSpleef extends JavaPlugin {
 
         saveDefaultConfig();
         loadConfigurationFiles();
+
+        getCommand("bs").setExecutor(new CommandProcessor());
 
         getLogger().info("BowSpleef is enabled.");
     }

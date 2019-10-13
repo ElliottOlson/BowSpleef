@@ -19,6 +19,30 @@ public class Game {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public GameState getState() {
+        return state;
+    }
+
+    public int getMinPlayers() {
+        return minPlayers;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public List<BowSpleefPlayer> getPlayers() {
+        return players;
+    }
+
+    public List<BowSpleefPlayer> getSpectators() {
+        return spectators;
+    }
+
     public enum GameState {
         DISABLED("Disabled", ChatColor.DARK_RED),
         LOADING("Loading", ChatColor.GOLD),

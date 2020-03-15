@@ -3,6 +3,7 @@ package com.bowspleef;
 import com.bowspleef.command.CommandProcessor;
 import com.bowspleef.command.Commands;
 import com.bowspleef.command.HelpCommand;
+import com.bowspleef.game.GameManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -19,8 +20,6 @@ public class BowSpleef extends JavaPlugin {
     public static File playerFile = new File(PATH + "/players.yml");
     public static FileConfiguration playerFileConfiguration = YamlConfiguration.loadConfiguration(arenaFile);
 
-    public static ArrayList<Player> test = new ArrayList<>();
-
     @Override
     public void onEnable() {
 
@@ -31,6 +30,8 @@ public class BowSpleef extends JavaPlugin {
         Commands.getCommandList().add(new HelpCommand());
 
         //getServer().getPluginManager().registerEvents(new ArenaListener(), this);
+
+        GameManager.getInstance().loadGames();
 
         getLogger().info("BowSpleef is enabled.");
     }

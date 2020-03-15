@@ -12,18 +12,41 @@ public class GameManager {
     private ArrayList<Game> games = new ArrayList<>();
     private FileConfiguration arenaFile = BowSpleef.arenaFileConfiguration;
 
-    public void setup() {
-        loadGames();
-    }
-
     public void loadGames() {
         games.clear();
 
-        for (String name : arenaFile.getStringList("list.games")) {
-            Game game = new Game(name);
-            game.setup();
-            games.add(game);
+        if (arenaFile != null && arenaFile.contains("list.games")) {
+            for (String name : arenaFile.getStringList("list.games")) {
+                Game game = new Game(name);
+                game.setup();
+                games.add(game);
+            }
         }
+    }
+
+    public boolean createGame(String name) {
+
+        if (getGame(name) != null)
+            return false;
+
+        Game game = new Game(name);
+        games.add(game);
+
+        return true;
+    }
+
+    public boolean deleteGame(String name) {
+
+        if (getGame(name) == null)
+            return false;
+
+        Game game = getGame(name);
+        game.disable();
+
+        // TODO: Make sure to remove from yml
+        games.remove(game);
+
+        return true;
     }
 
     public Game getGame(String name) {

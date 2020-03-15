@@ -1,10 +1,11 @@
 package com.bowspleef.game;
 
 import com.bowspleef.BowSpleef;
-import com.bowspleef.MessageManager;
+import com.bowspleef.manager.MessageManager;
 import com.bowspleef.api.GameJoinEvent;
 import com.bowspleef.api.GameSpectateEvent;
 import com.bowspleef.api.GameVoteEvent;
+import com.bowspleef.manager.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -21,6 +22,8 @@ public class Game {
     private String name;
     private Arena arena;
     private GameState state = GameState.NOT_SETUP;
+
+    private ScoreboardManager scoreboardManager;
 
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Player> spectators = new ArrayList<>();
@@ -40,6 +43,7 @@ public class Game {
 
     public Game(String name) {
         this.name = name;
+        scoreboardManager = new ScoreboardManager(this);
         setup();
     }
 
@@ -99,7 +103,8 @@ public class Game {
                 start();
             }
 
-            // TODO: Update sign and scoreboards
+            // TODO: Update sign
+            updateScoreboard();
 
             return true;
 
@@ -134,7 +139,8 @@ public class Game {
 
             msgAll(MessageManager.MessageType.INFO, player.getName() + ChatColor.AQUA + " is spectating this game!");
 
-            // TODO: Update sign and scoreboards
+            // TODO: Update sign
+            updateScoreboard();
 
             return true;
 
@@ -173,14 +179,14 @@ public class Game {
         GameVoteEvent event = new GameVoteEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
 
-        // TODO: Update scoreboard
+        updateScoreboard();
 
         if (getPlayers().size() >= 2) {
             int votesNeeded = (int) Math.round(getMinPlayers() * 0.66);
 
             if (getVotes().size() >= votesNeeded) {
                 start();
-                // TODO: Update scoreboard
+                updateScoreboard();
             }
         }
 
@@ -264,6 +270,16 @@ public class Game {
 
         for (Player player : getPlayers()) {
             MessageManager.msg(type, player, message);
+        }
+    }
+
+    private void updateScoreboard() {
+        for (Player player : getPlayers()) {
+            scoreboardManager.applyScoreboard(player);
+        }
+
+        for (Player player : getPlayers()) {
+            scoreboardManager.applyScoreboard(player);
         }
     }
 

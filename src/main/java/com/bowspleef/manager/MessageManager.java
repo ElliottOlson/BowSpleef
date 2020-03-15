@@ -1,4 +1,4 @@
-package com.bowspleef;
+package com.bowspleef.manager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

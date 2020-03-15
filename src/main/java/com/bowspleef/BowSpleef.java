@@ -3,6 +3,7 @@ package com.bowspleef;
 import com.bowspleef.command.CommandProcessor;
 import com.bowspleef.command.Commands;
 import com.bowspleef.command.HelpCommand;
+import com.bowspleef.event.*;
 import com.bowspleef.game.GameManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -29,7 +30,14 @@ public class BowSpleef extends JavaPlugin {
         getCommand("bs").setExecutor(new CommandProcessor());
         Commands.getCommandList().add(new HelpCommand());
 
-        //getServer().getPluginManager().registerEvents(new ArenaListener(), this);
+        getServer().getPluginManager().registerEvents(new BreakEvent(), this);
+        getServer().getPluginManager().registerEvents(new DamageEvent(), this);
+        getServer().getPluginManager().registerEvents(new DropEvent(), this);
+        getServer().getPluginManager().registerEvents(new FoodEvent(), this);
+        getServer().getPluginManager().registerEvents(new MoveEvent(), this);
+        getServer().getPluginManager().registerEvents(new PickupEvent(), this);
+        getServer().getPluginManager().registerEvents(new PlaceEvent(), this);
+        getServer().getPluginManager().registerEvents(new QuitEvent(), this);
 
         GameManager.getInstance().loadGames();
 

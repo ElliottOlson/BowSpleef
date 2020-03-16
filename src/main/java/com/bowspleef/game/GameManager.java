@@ -25,9 +25,11 @@ public class GameManager {
         }
     }
 
-    public boolean createGame(String name) {
+    public void saveGames() {
+        
+    }
 
-        Bukkit.getLogger().info("Name is " + name);
+    public boolean createGame(String name) {
 
         if (getGame(name) != null)
             return false;

@@ -29,13 +29,10 @@ public abstract class Command {
             getArgs().add(string);
         }
 
-        if (isBePlayer()) {
-            if (!(sender instanceof Player)) {
-                return CommandResult.NOT_PLAYER;
-            }
-
-            setPlayer((Player) sender);
+        if (isBePlayer() && !(sender instanceof Player)) {
+            return CommandResult.NOT_PLAYER;
         }
+        setPlayer((Player) sender);
 
         if (!sender.hasPermission(getPermission())) {
             return CommandResult.NO_PERMISSION;

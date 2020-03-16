@@ -13,7 +13,7 @@ public class DebugCommand extends Command {
         setDescription("Debug an arena");
         setUsage("[Name]");
         setPermission("bowspleef.admin.debug");
-        setBePlayer(true);
+        setBePlayer(false);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class CreateCommand extends Command {
         setDescription("Create a game");
         setUsage("[Name]");
         setPermission("bowspleef.admin.game.create");
-        setBePlayer(true);
+        setBePlayer(false);
     }
 
     @Override

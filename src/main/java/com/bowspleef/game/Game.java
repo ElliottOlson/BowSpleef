@@ -276,11 +276,30 @@ public class Game {
     }
 
     public void enable() {
+        if (arena.getPos1() == null)
+            return;
 
+        if (arena.getPos2() == null)
+            return;
+
+        if (arena.getSpectatorSpawn() == null)
+            return;
+
+        if (arena.getLobby() == null)
+            return;
+
+        if (arena.getSpawn() == null)
+            return;
+
+        setState(GameState.RESETTING);
+        arena.regen();
+        setState(GameState.WAITING);
+        // TODO: Update signs
     }
 
     public void disable() {
-
+        setState(GameState.DISABLED);
+        // TODO: Update signs
     }
 
     public void setup() {

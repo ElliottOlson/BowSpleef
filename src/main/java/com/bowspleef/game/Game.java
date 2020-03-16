@@ -37,13 +37,13 @@ public class Game {
     private int minPlayers;
     private int maxPlayers;
 
-    private FileConfiguration arenaFile = BowSpleef.playerFileConfiguration;
+    private FileConfiguration arenaFile = BowSpleef.arenaFileConfiguration;
 
     public Game(String name) {
         this.name = name;
         scoreboardManager = new ScoreboardManager(this);
         arena = new Arena();
-//        setup();
+        load();
     }
 
     public boolean addPlayer(Player player) {
@@ -300,6 +300,113 @@ public class Game {
     public void disable() {
         setState(GameState.DISABLED);
         // TODO: Update signs
+    }
+
+    public void load() {
+        BowSpleef.loadConfigurationFiles();
+
+        if (arenaFile.contains("arenas." + name + ".spawn")) {
+            String world = arenaFile.getString("arenas." + name + ".spawn.world");
+            int x = arenaFile.getInt("arenas." + name + ".spawn.x");
+            int y = arenaFile.getInt("arenas." + name + ".spawn.y");
+            int z = arenaFile.getInt("arenas." + name + ".spawn.z");
+
+            Location location = new Location(Bukkit.getWorld(world), x, y, z);
+            arena.setSpawn(location);
+        }
+
+        if (arenaFile.contains("arenas." + name + ".lobby")) {
+            String world = arenaFile.getString("arenas." + name + ".lobby.world");
+            int x = arenaFile.getInt("arenas." + name + ".lobby.x");
+            int y = arenaFile.getInt("arenas." + name + ".lobby.y");
+            int z = arenaFile.getInt("arenas." + name + ".lobby.z");
+
+            Location location = new Location(Bukkit.getWorld(world), x, y, z);
+            arena.setLobby(location);
+        }
+
+        if (arenaFile.contains("arenas." + name + ".pos1")) {
+            String world = arenaFile.getString("arenas." + name + ".pos1.world");
+            int x = arenaFile.getInt("arenas." + name + ".pos1.x");
+            int y = arenaFile.getInt("arenas." + name + ".pos1.y");
+            int z = arenaFile.getInt("arenas." + name + ".pos1.z");
+
+            Location location = new Location(Bukkit.getWorld(world), x, y, z);
+            arena.setPos1(location);
+        }
+
+        if (arenaFile.contains("arenas." + name + ".pos2")) {
+            String world = arenaFile.getString("arenas." + name + ".pos2.world");
+            int x = arenaFile.getInt("arenas." + name + ".pos2.x");
+            int y = arenaFile.getInt("arenas." + name + ".pos2.y");
+            int z = arenaFile.getInt("arenas." + name + ".pos2.z");
+
+            Location location = new Location(Bukkit.getWorld(world), x, y, z);
+            arena.setPos2(location);
+        }
+
+        if (arenaFile.contains("arenas." + name + ".specspawn")) {
+            String world = arenaFile.getString("arenas." + name + ".specspawn.world");
+            int x = arenaFile.getInt("arenas." + name + ".specspawn.x");
+            int y = arenaFile.getInt("arenas." + name + ".specspawn.y");
+            int z = arenaFile.getInt("arenas." + name + ".specspawn.z");
+
+            Location location = new Location(Bukkit.getWorld(world), x, y, z);
+            arena.setSpectatorSpawn(location);
+        }
+
+        if (arenaFile.contains("arenas." + name + ".min-players")) {
+            minPlayers = arenaFile.getInt("arenas." + name + ".min-players");
+        }
+
+        if (arenaFile.contains("arenas." + name + ".max-players")) {
+            maxPlayers = arenaFile.getInt("arenas." + name + ".max-players");
+        }
+
+    }
+
+    public void save() {
+        state = GameState.DISABLED;
+
+        if (arena.getSpawn() != null) {
+            arenaFile.set("arenas." + name + ".spawn.world", arena.getSpawn().getWorld().getName());
+            arenaFile.set("arenas." + name + ".spawn.x", arena.getSpawn().getBlockX());
+            arenaFile.set("arenas." + name + ".spawn.y", arena.getSpawn().getBlockY());
+            arenaFile.set("arenas." + name + ".spawn.z", arena.getSpawn().getBlockZ());
+        }
+
+        if (arena.getPos1() != null) {
+            arenaFile.set("arenas." + name + ".pos1.world", arena.getPos1().getWorld().getName());
+            arenaFile.set("arenas." + name + ".pos1.x", arena.getPos1().getBlockX());
+            arenaFile.set("arenas." + name + ".pos1.y", arena.getPos1().getBlockY());
+            arenaFile.set("arenas." + name + ".pos1.z", arena.getPos1().getBlockZ());
+        }
+
+        if (arena.getPos2() != null) {
+            arenaFile.set("arenas." + name + ".pos2.world", arena.getPos2().getWorld().getName());
+            arenaFile.set("arenas." + name + ".pos2.x", arena.getPos2().getBlockX());
+            arenaFile.set("arenas." + name + ".pos2.y", arena.getPos2().getBlockY());
+            arenaFile.set("arenas." + name + ".pos2.z", arena.getPos2().getBlockZ());
+        }
+
+        if (arena.getLobby() != null) {
+            arenaFile.set("arenas." + name + ".lobby.world", arena.getLobby().getWorld().getName());
+            arenaFile.set("arenas." + name + ".lobby.x", arena.getLobby().getBlockX());
+            arenaFile.set("arenas." + name + ".lobby.y", arena.getLobby().getBlockY());
+            arenaFile.set("arenas." + name + ".lobby.z", arena.getLobby().getBlockZ());
+        }
+
+        if (arena.getSpectatorSpawn() != null) {
+            arenaFile.set("arenas." + name + ".specspawn.world", arena.getSpectatorSpawn().getWorld().getName());
+            arenaFile.set("arenas." + name + ".specspawn.x", arena.getSpectatorSpawn().getBlockX());
+            arenaFile.set("arenas." + name + ".specspawn.y", arena.getSpectatorSpawn().getBlockY());
+            arenaFile.set("arenas." + name + ".specspawn.z", arena.getSpectatorSpawn().getBlockZ());
+        }
+
+        arenaFile.set("arenas." + name + ".min-players", minPlayers);
+        arenaFile.set("arenas." + name + ".max-players", maxPlayers);
+
+        BowSpleef.saveConfigurationFiles();
     }
 
     public void setup() {

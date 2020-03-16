@@ -30,7 +30,11 @@ public class DebugCommand extends Command {
                 MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "State: " + ChatColor.YELLOW + game.getState().name());
                 MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "Min Players: " + ChatColor.YELLOW + game.getMinPlayers());
                 MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "Max Players: " + ChatColor.YELLOW + game.getMaxPlayers());
-                MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "Arena State: " + ChatColor.YELLOW + (game.arena != null ? "Setup" : "Not Setup"));
+                MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "Spawn: " + ChatColor.YELLOW + (game.arena.getSpawn() != null ? "Setup" : "Not Setup"));
+                MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "Pos1: " + ChatColor.YELLOW + (game.arena.getPos1() != null ? "Setup" : "Not Setup"));
+                MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "Pos2: " + ChatColor.YELLOW + (game.arena.getPos2() != null ? "Setup" : "Not Setup"));
+                MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "Lobby: " + ChatColor.YELLOW + (game.arena.getLobby() != null ? "Setup" : "Not Setup"));
+                MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "Specspawn: " + ChatColor.YELLOW + (game.arena.getSpectatorSpawn() != null ? "Setup" : "Not Setup"));
 
             }
 

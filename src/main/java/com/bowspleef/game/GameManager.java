@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameManager {
 
@@ -19,14 +20,24 @@ public class GameManager {
         if (arenaFile != null && arenaFile.contains("list.games")) {
             for (String name : arenaFile.getStringList("list.games")) {
                 Game game = new Game(name);
-                game.setup();
                 games.add(game);
             }
         }
     }
 
     public void saveGames() {
-        
+        BowSpleef.saveConfigurationFiles();
+
+        List<String> names = new ArrayList<>();
+        for (Game game : games) {
+            names.add(game.getName());
+        }
+
+        arenaFile.set("list.games", names);
+
+        for (Game game : games) {
+            game.save();
+        }
     }
 
     public boolean createGame(String name) {

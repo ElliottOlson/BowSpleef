@@ -49,6 +49,7 @@ public class BowSpleef extends JavaPlugin {
     @Override
     public void onDisable() {
 
+        GameManager.getInstance().saveGames();
         saveConfigurationFiles();
 
         getLogger().info("BowSpleef is disabled.");

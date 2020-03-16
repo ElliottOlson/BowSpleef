@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,6 +38,8 @@ public class Game {
     private int minPlayers;
     private int maxPlayers;
 
+    private Location sign;
+
     private FileConfiguration arenaFile = BowSpleef.arenaFileConfiguration;
 
     public Game(String name) {
@@ -63,7 +66,7 @@ public class Game {
             return false;
         }
 
-        if (state == GameState.WAITING || state == GameState.STARTING) {
+        if (state == GameState.LOBBY || state == GameState.STARTING) {
 
             if (players.size() >= maxPlayers) {
                 MessageManager.msg(MessageManager.MessageType.ERROR, player, "This game is already full.");
@@ -97,12 +100,12 @@ public class Game {
                     ChatColor.GRAY + "(" + ChatColor.YELLOW + getPlayers().size() + ChatColor.GRAY + "/" +
                     ChatColor.YELLOW + maxPlayers + ChatColor.GRAY + ")");
 
-            if (getPlayers().size() == getMinPlayers() && getState() == GameState.WAITING) {
+            if (getPlayers().size() == getMinPlayers() && getState() == GameState.LOBBY) {
                 msgAll(MessageManager.MessageType.INFO, "Minimum player count reached. Starting soon."); // Redo message
                 start();
             }
 
-            // TODO: Update sign
+            updateSign();
             updateScoreboard();
 
             return true;
@@ -138,7 +141,7 @@ public class Game {
 
             msgAll(MessageManager.MessageType.INFO, player.getName() + ChatColor.AQUA + " is spectating this game!");
 
-            // TODO: Update sign
+            updateSign();
             updateScoreboard();
 
             return true;
@@ -197,7 +200,7 @@ public class Game {
         player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
         updateScoreboard();
-        // TODO: Update signs
+        updateSign();
 
         GameLeaveEvent event = new GameLeaveEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
@@ -229,7 +232,7 @@ public class Game {
             return false;
         }
 
-        if (getState() != GameState.WAITING) {
+        if (getState() != GameState.LOBBY) {
             MessageManager.msg(MessageManager.MessageType.ERROR, player, "Voting can only take place while in lobby.");
             return false;
         }
@@ -272,7 +275,7 @@ public class Game {
     public void end() {
         state = GameState.RESETTING;
         arena.regen();
-        state = GameState.WAITING;
+        state = GameState.LOBBY;
     }
 
     public void enable() {
@@ -293,13 +296,13 @@ public class Game {
 
         setState(GameState.RESETTING);
         arena.regen();
-        setState(GameState.WAITING);
-        // TODO: Update signs
+        setState(GameState.LOBBY);
+        updateSign();
     }
 
     public void disable() {
         setState(GameState.DISABLED);
-        // TODO: Update signs
+        updateSign();
     }
 
     public void load() {
@@ -355,6 +358,16 @@ public class Game {
             arena.setSpectatorSpawn(location);
         }
 
+        if (arenaFile.contains("arenas." + name + ".sign")) {
+            String world = arenaFile.getString("arenas." + name + ".sign.world");
+            int x = arenaFile.getInt("arenas." + name + ".sign.x");
+            int y = arenaFile.getInt("arenas." + name + ".sign.y");
+            int z = arenaFile.getInt("arenas." + name + ".sign.z");
+
+            Location location = new Location(Bukkit.getWorld(world), x, y, z);
+            setSign(location);
+        }
+
         if (arenaFile.contains("arenas." + name + ".min-players")) {
             minPlayers = arenaFile.getInt("arenas." + name + ".min-players");
         }
@@ -363,6 +376,7 @@ public class Game {
             maxPlayers = arenaFile.getInt("arenas." + name + ".max-players");
         }
 
+        enable();
     }
 
     public void save() {
@@ -403,49 +417,34 @@ public class Game {
             arenaFile.set("arenas." + name + ".specspawn.z", arena.getSpectatorSpawn().getBlockZ());
         }
 
+        if (getSign() != null) {
+            arenaFile.set("arenas." + name + ".sign.world", getSign().getWorld().getName());
+            arenaFile.set("arenas." + name + ".sign.x", getSign().getBlockX());
+            arenaFile.set("arenas." + name + ".sign.y", getSign().getBlockY());
+            arenaFile.set("arenas." + name + ".sign.z", getSign().getBlockZ());
+        }
+
         arenaFile.set("arenas." + name + ".min-players", minPlayers);
         arenaFile.set("arenas." + name + ".max-players", maxPlayers);
 
         BowSpleef.saveConfigurationFiles();
     }
 
-    public void setup() {
-        state = GameState.LOADING;
+    public void updateSign() {
+        if (getSign() == null)
+            return;
 
-        String world = arenaFile.getString("arenas." + name + ".world");
+        if (getSign().getBlock() instanceof Sign) {
+            Sign sign = (Sign) getSign().getBlock();
 
-        int pos1X = arenaFile.getInt("arenas." + name + ".pos1.x");
-        int pos1Y = arenaFile.getInt("arenas." + name + ".pos1.y");
-        int pos1Z = arenaFile.getInt("arenas." + name + ".pos1.z");
+            sign.setLine(0, ChatColor.AQUA + "[BowSpleef]");
+            sign.setLine(1, getName());
+            sign.setLine(2, state.getColor() + state.getName());
+            sign.setLine(3, ChatColor.DARK_GREEN.toString() + players.size() + ChatColor.DARK_GRAY + "/" +
+                    ChatColor.DARK_GREEN.toString() + maxPlayers);
 
-        int pos2X = arenaFile.getInt("arenas." + name + ".pos2.x");
-        int pos2Y = arenaFile.getInt("arenas." + name + ".pos2.y");
-        int pos2Z = arenaFile.getInt("arenas." + name + ".pos2.z");
-
-        int lobbySpawnX = arenaFile.getInt("arenas." + name + ".lobby.x");
-        int lobbySpawnY = arenaFile.getInt("arenas." + name + ".lobby.y");
-        int lobbySpawnZ = arenaFile.getInt("arenas." + name + ".lobby.z");
-
-        int spectatorSpawnX = arenaFile.getInt("arenas." + name + ".spectator.x");
-        int spectatorSpawnY = arenaFile.getInt("arenas." + name + ".spectator.y");
-        int spectatorSpawnZ = arenaFile.getInt("arenas." + name + ".spectator.z");
-
-        int spawnX = arenaFile.getInt("arenas." + name + ".spawn.x");
-        int spawnY = arenaFile.getInt("arenas." + name + ".spawn.y");
-        int spawnZ = arenaFile.getInt("arenas." + name + ".spawn.z");
-
-        Location pos1 = new Location(Bukkit.getWorld(world), pos1X, pos1Y, pos1Z);
-        Location pos2 = new Location(Bukkit.getWorld(world), pos2X, pos2Y, pos2Z);
-        Location lobby = new Location(Bukkit.getWorld(world), lobbySpawnX, lobbySpawnY, lobbySpawnZ);
-        Location spectatorSpawn = new Location(Bukkit.getWorld(world), spectatorSpawnX, spectatorSpawnY, spectatorSpawnZ);
-        Location spawn = new Location(Bukkit.getWorld(world), spawnX, spawnY, spawnZ);
-
-        arena = new Arena(lobby, spawn, spectatorSpawn, pos1, pos2);
-
-        minPlayers = arenaFile.getInt("arenas." + name + ".min-players");
-        maxPlayers = arenaFile.getInt("arenas." + name + ".max-players");
-
-        state = GameState.WAITING;
+            sign.update();
+        }
     }
 
     private void saveInventory(Player player) {
@@ -563,9 +562,47 @@ public class Game {
         this.maxPlayers = maxPlayers;
     }
 
+    public Location getSign() {
+        return sign;
+    }
+
+    public void setSign(Location sign) {
+        this.sign = sign;
+    }
+
     public enum GameState {
-        DISABLED, LOADING, INACTIVE, WAITING,
-        STARTING, IN_GAME, RESETTING, NOT_SETUP, ERROR;
+        DISABLED("Disabled", 0, ChatColor.DARK_RED),
+        LOADING("Loading", 1, ChatColor.GOLD),
+        LOBBY("Lobby", 2, ChatColor.GREEN),
+        STARTING("Starting", 3, ChatColor.DARK_GREEN),
+        IN_GAME("In Game", 4, ChatColor.DARK_RED),
+        RESETTING("Resetting", 5, ChatColor.DARK_RED),
+        INACTIVE("Inactive", 6, ChatColor.DARK_RED),
+        NOT_SETUP("Not Setup", 7, ChatColor.DARK_RED),
+        ERROR("Error", 8, ChatColor.DARK_RED);
+
+        private String name;
+        private int id;
+        private ChatColor color;
+
+        GameState(String name, int id, ChatColor color) {
+            this.name = name;
+            this.id = id;
+            this.color = color;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public ChatColor getColor() {
+            return color;
+        }
+
     }
 
 }

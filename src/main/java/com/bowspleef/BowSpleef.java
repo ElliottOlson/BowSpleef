@@ -13,6 +13,8 @@ import java.io.File;
 
 public class BowSpleef extends JavaPlugin {
 
+    private static BowSpleef instance;
+
     public static final String PATH = "plugins/BowSpleef";
     public static File arenaFile = new File(PATH + "/arena.yml");
     public static FileConfiguration arenaFileConfiguration = YamlConfiguration.loadConfiguration(arenaFile);
@@ -75,4 +77,10 @@ public class BowSpleef extends JavaPlugin {
         }
     }
 
+    public static BowSpleef getInstance() {
+        if (instance == null)
+            instance = new BowSpleef();
+
+        return instance;
+    }
 }

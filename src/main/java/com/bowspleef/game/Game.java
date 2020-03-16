@@ -1,11 +1,8 @@
 package com.bowspleef.game;
 
 import com.bowspleef.BowSpleef;
-import com.bowspleef.api.GameLeaveEvent;
+import com.bowspleef.api.*;
 import com.bowspleef.manager.MessageManager;
-import com.bowspleef.api.GameJoinEvent;
-import com.bowspleef.api.GameSpectateEvent;
-import com.bowspleef.api.GameVoteEvent;
 import com.bowspleef.manager.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,9 +17,9 @@ import java.util.HashMap;
 
 public class Game {
 
-    private String name;
-    private Arena arena;
-    private GameState state = GameState.NOT_SETUP;
+    public String name;
+    public Arena arena;
+    public GameState state = GameState.NOT_SETUP;
 
     private ScoreboardManager scoreboardManager;
 
@@ -213,7 +210,7 @@ public class Game {
                     removePlayer(spectator);
                 }
 
-            // TODO: End game
+            end();
         }
 
         return true;
@@ -262,6 +259,17 @@ public class Game {
     }
 
     public void start() {
+        state = GameState.STARTING;
+
+        GameStartEvent event = new GameStartEvent(this);
+        Bukkit.getPluginManager().callEvent(event);
+
+        msgAll(MessageManager.MessageType.INFO, "Game starting in 15 seconds...");
+        new Countdown(this).runTaskTimer(BowSpleef.getInstance(), 0L, 20L);
+    }
+
+    public void end() {
+
 
     }
 
@@ -331,7 +339,7 @@ public class Game {
         }
     }
 
-    private void msgAll(MessageManager.MessageType type, String message) {
+    public void msgAll(MessageManager.MessageType type, String message) {
         for (Player player : getPlayers()) {
             MessageManager.msg(type, player, message);
         }
@@ -341,7 +349,7 @@ public class Game {
         }
     }
 
-    private void updateScoreboard() {
+    public void updateScoreboard() {
         for (Player player : getPlayers()) {
             scoreboardManager.applyScoreboard(player);
         }

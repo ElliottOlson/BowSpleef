@@ -42,6 +42,7 @@ public class Game {
     public Game(String name) {
         this.name = name;
         scoreboardManager = new ScoreboardManager(this);
+        arena = new Arena();
 //        setup();
     }
 
@@ -372,6 +373,10 @@ public class Game {
         return state;
     }
 
+    public ScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
+    }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
@@ -388,12 +393,48 @@ public class Game {
         return votes;
     }
 
+    public HashMap<Player, ItemStack[][]> getInventoryStorage() {
+        return inventoryStorage;
+    }
+
+    public HashMap<Player, Integer> getGameModeStorage() {
+        return gameModeStorage;
+    }
+
+    public HashMap<Player, Integer> getFoodLevelStorage() {
+        return foodLevelStorage;
+    }
+
+    public HashMap<Player, Double> getHealthStorage() {
+        return healthStorage;
+    }
+
+    public HashMap<Player, Location> getPrevLocationStorage() {
+        return prevLocationStorage;
+    }
+
     public int getMinPlayers() {
         return minPlayers;
     }
 
     public int getMaxPlayers() {
         return maxPlayers;
+    }
+
+    public FileConfiguration getArenaFile() {
+        return arenaFile;
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
+    }
+
+    public void setMinPlayers(int minPlayers) {
+        this.minPlayers = minPlayers;
+    }
+
+    public void setMaxPlayers(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
     }
 
     public enum GameState {

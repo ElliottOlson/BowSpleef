@@ -13,6 +13,10 @@ public class Arena {
     private Location spectatorSpawn;
     private Location pos1, pos2;
 
+    public Arena() {
+
+    }
+
     public Arena(Location lobby, Location spawn, Location spectatorSpawn, Location pos1, Location pos2) {
         this.lobby = lobby;
         this.spawn = spawn;
@@ -45,20 +49,39 @@ public class Arena {
         return lobby;
     }
 
+    public void setLobby(Location lobby) {
+        this.lobby = lobby;
+    }
+
     public Location getSpawn() {
         return spawn;
+    }
+
+    public void setSpawn(Location spawn) {
+        this.spawn = spawn;
     }
 
     public Location getSpectatorSpawn() {
         return spectatorSpawn;
     }
 
+    public void setSpectatorSpawn(Location spectatorSpawn) {
+        this.spectatorSpawn = spectatorSpawn;
+    }
+
     public Location getPos1() {
         return pos1;
+    }
+
+    public void setPos1(Location pos1) {
+        this.pos1 = pos1;
     }
 
     public Location getPos2() {
         return pos2;
     }
 
+    public void setPos2(Location pos2) {
+        this.pos2 = pos2;
+    }
 }

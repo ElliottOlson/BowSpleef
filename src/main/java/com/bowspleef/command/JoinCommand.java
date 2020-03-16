@@ -13,6 +13,7 @@ public class JoinCommand extends Command {
         setDescription("Join a BowSpleef game");
         setUsage("[Name]");
         setBePlayer(true);
+        setPermission("bowspleef.player.join");
     }
 
     @Override

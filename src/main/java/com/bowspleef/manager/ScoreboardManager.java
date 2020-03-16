@@ -26,7 +26,7 @@ public class ScoreboardManager {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "BowSpleef");
 
-        if (game.getState() == Game.GameState.WAITING) {
+        if (game.getState() == Game.GameState.LOBBY) {
 
             addLine(objective, ChatColor.GOLD.toString() + ChatColor.BOLD + "GAME: ", 16);
             addLine(objective, ChatColor.WHITE + "Waiting: " + ChatColor.GREEN + game.getPlayers().size(), 15);

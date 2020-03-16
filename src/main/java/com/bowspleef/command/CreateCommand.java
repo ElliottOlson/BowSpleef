@@ -1,5 +1,9 @@
 package com.bowspleef.command;
 
+import com.bowspleef.game.GameManager;
+import com.bowspleef.manager.MessageManager;
+import org.bukkit.ChatColor;
+
 public class CreateCommand extends Command {
 
     public CreateCommand() {
@@ -18,9 +22,15 @@ public class CreateCommand extends Command {
 
             String name = getArgs().get(1);
 
-            // TODO: Create game (check to see if valid)
-
-            return CommandResult.SUCCESS;
+            if (GameManager.getInstance().createGame(name)) {
+                MessageManager.msg(MessageManager.MessageType.SUCCESS, player, "The arena, " +
+                        ChatColor.AQUA + name + ChatColor.GRAY + ", has been created.");
+                return CommandResult.SUCCESS;
+            } else {
+                MessageManager.msg(MessageManager.MessageType.ERROR, player, "The arena, " +
+                        ChatColor.AQUA + name + ChatColor.GRAY + ", already exists.");
+                return CommandResult.FAIL;
+            }
 
         }
 

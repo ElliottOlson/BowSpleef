@@ -42,7 +42,7 @@ public class Game {
     public Game(String name) {
         this.name = name;
         scoreboardManager = new ScoreboardManager(this);
-        setup();
+//        setup();
     }
 
     public boolean addPlayer(Player player) {
@@ -269,8 +269,9 @@ public class Game {
     }
 
     public void end() {
-
-
+        state = GameState.RESETTING;
+        arena.regen();
+        state = GameState.WAITING;
     }
 
     public void enable() {

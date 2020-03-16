@@ -1,6 +1,7 @@
 package com.bowspleef.game;
 
 import com.bowspleef.BowSpleef;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -25,6 +26,8 @@ public class GameManager {
     }
 
     public boolean createGame(String name) {
+
+        Bukkit.getLogger().info("Name is " + name);
 
         if (getGame(name) != null)
             return false;

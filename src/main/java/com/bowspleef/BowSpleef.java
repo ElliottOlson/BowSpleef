@@ -1,8 +1,6 @@
 package com.bowspleef;
 
-import com.bowspleef.command.CommandProcessor;
-import com.bowspleef.command.Commands;
-import com.bowspleef.command.HelpCommand;
+import com.bowspleef.command.*;
 import com.bowspleef.event.*;
 import com.bowspleef.game.GameManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -29,6 +27,8 @@ public class BowSpleef extends JavaPlugin {
 
         getCommand("bs").setExecutor(new CommandProcessor());
         Commands.getCommandList().add(new HelpCommand());
+        Commands.getCommandList().add(new CreateCommand());
+        Commands.getCommandList().add(new DebugCommand());
 
         getServer().getPluginManager().registerEvents(new BreakEvent(), this);
         getServer().getPluginManager().registerEvents(new DamageEvent(), this);

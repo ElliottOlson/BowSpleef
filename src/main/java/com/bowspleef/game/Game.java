@@ -152,11 +152,6 @@ public class Game {
 
     public boolean removePlayer(Player player) {
 
-        if (!player.hasPermission("bowspleef.player.leave")) {
-            MessageManager.msg(MessageManager.MessageType.ERROR, player, "You do not have permission to join this game.");
-            return false;
-        }
-
         if (GameManager.getInstance().getGame(player) == null) {
             MessageManager.msg(MessageManager.MessageType.ERROR, player, "You are not currently in a game.");
             return false;
@@ -181,7 +176,7 @@ public class Game {
             if (players.size() != 1 && getState() == GameState.IN_GAME) {
                 msgAll(MessageManager.MessageType.SUB_INFO, player.getName() + ChatColor.GRAY + " has lost!");
             } else if (players.size() == 1 && getState() == GameState.IN_GAME) {
-                MessageManager.msg(MessageManager.MessageType.ERROR, player, "You won this round of BowSpleef!"); // TODO: Look into
+                MessageManager.msg(MessageManager.MessageType.SUCCESS, player, "You won this round of BowSpleef!"); // TODO: Look into
             } else {
                 MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "You have left the game.");
             }
@@ -210,6 +205,46 @@ public class Game {
 
             end();
         }
+
+        return true;
+    }
+
+    public boolean removePlayerNoWin(Player player) {
+
+        if (GameManager.getInstance().getGame(player) == null) {
+            MessageManager.msg(MessageManager.MessageType.ERROR, player, "You are not currently in a game.");
+            return false;
+        }
+
+        player.setFoodLevel(foodLevelStorage.get(player));
+        player.setGameMode(GameMode.getByValue(gameModeStorage.get(player)));
+        player.setHealth(healthStorage.get(player));
+        player.teleport(prevLocationStorage.get(player));
+
+        foodLevelStorage.remove(player);
+        gameModeStorage.remove(player);
+        healthStorage.remove(player);
+        prevLocationStorage.remove(player);
+
+        retrieveInventory(player);
+
+        if (votes.contains(player))
+            votes.remove(player);
+
+        if (players.contains(player)) {
+            players.remove(player);
+            MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "You have left the game.");
+        }
+
+        if (spectators.contains(player)) {
+            MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "You have stopped spectating this game.");
+            spectators.remove(player);
+        }
+
+        player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+
+        GameLeaveEvent event = new GameLeaveEvent(player, this);
+        Bukkit.getPluginManager().callEvent(event);
 
         return true;
     }
@@ -388,6 +423,14 @@ public class Game {
 
     public void save() {
         state = GameState.DISABLED;
+
+        for (Player player : players) {
+            removePlayerNoWin(player);
+        }
+
+        for (Player player : spectators) {
+            removePlayerNoWin(player);
+        }
 
         if (arena.getSpawn() != null) {
             arenaFile.set("arenas." + name + ".spawn.world", arena.getSpawn().getWorld().getName());

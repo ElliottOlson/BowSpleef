@@ -16,9 +16,14 @@ public class Countdown extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (time == 10 || time == 5 || (time <= 3 && time > 0)) {
-            game.msgAll(MessageManager.MessageType.SUB_INFO, "You will be teleported in " +
-                    ChatColor.DARK_AQUA + time + ChatColor.GRAY + " seconds...");
+        if (time == 10 || time == 5 || time <= 3) {
+            if (time == 1) {
+                game.msgAll(MessageManager.MessageType.SUB_INFO, "You will be teleported in " +
+                        ChatColor.DARK_AQUA + time + ChatColor.GRAY + " second...");
+            } else {
+                game.msgAll(MessageManager.MessageType.SUB_INFO, "You will be teleported in " +
+                        ChatColor.DARK_AQUA + time + ChatColor.GRAY + " seconds...");
+            }
         }
 
         if (time == 0) {
@@ -37,4 +42,5 @@ public class Countdown extends BukkitRunnable {
 
         time--;
     }
+
 }

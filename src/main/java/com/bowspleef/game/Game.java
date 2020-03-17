@@ -98,7 +98,7 @@ public class Game {
                     ChatColor.YELLOW + maxPlayers + ChatColor.GRAY + ")");
 
             if (getPlayers().size() == getMinPlayers() && getState() == GameState.LOBBY) {
-                msgAll(MessageManager.MessageType.INFO, "Minimum player count reached. Starting soon."); // Redo message
+                msgAll(MessageManager.MessageType.INFO, "Minimum player count reached. Starting soon."); // TODO: Redo message
                 start();
             }
 
@@ -181,7 +181,7 @@ public class Game {
             if (players.size() != 1 && getState() == GameState.IN_GAME) {
                 msgAll(MessageManager.MessageType.SUB_INFO, player.getName() + ChatColor.GRAY + " has lost!");
             } else if (players.size() == 1 && getState() == GameState.IN_GAME) {
-                MessageManager.msg(MessageManager.MessageType.ERROR, player, "You won this round of BowSpleef!");
+                MessageManager.msg(MessageManager.MessageType.ERROR, player, "You won this round of BowSpleef!"); // TODO: Look into
             } else {
                 MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "You have left the game.");
             }
@@ -202,10 +202,7 @@ public class Game {
         GameLeaveEvent event = new GameLeaveEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
 
-        if (players.size() == 1 && getState() == GameState.IN_GAME) {
-            Player winner = players.get(0);
-            removePlayer(winner);
-
+        if (players.size() == 0 && getState() == GameState.IN_GAME) {
             if (spectators.size() > 0)
                 for (Player spectator : spectators) {
                     removePlayer(spectator);
@@ -240,7 +237,7 @@ public class Game {
         }
 
         votes.add(player);
-        MessageManager.msg(MessageManager.MessageType.SUCCESS, player, "You have voted to start the game.");
+        MessageManager.msg(MessageManager.MessageType.INFO, player, "You have voted to start the game.");
 
         GameVoteEvent event = new GameVoteEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);

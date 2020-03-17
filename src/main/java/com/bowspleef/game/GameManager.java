@@ -125,6 +125,10 @@ public class GameManager {
         return games.size();
     }
 
+    public ArrayList<Game> getGames() {
+        return games;
+    }
+
     public static GameManager getInstance() {
         if (instance == null)
             instance = new GameManager();

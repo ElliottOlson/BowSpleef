@@ -18,9 +18,7 @@ public class MoveEvent implements Listener {
         if (game != null) {
             if (game.getState() == Game.GameState.IN_GAME &&
                     player.getLocation().getY() <= game.getArena().getPos1().getY()) {
-
-                // TODO: Remove player from game.
-
+                game.removePlayer(player);
             }
         }
     }

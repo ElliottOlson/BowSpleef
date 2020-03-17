@@ -22,6 +22,8 @@ public class BowSpleef extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        instance = this;
+
         saveConfigurationFiles();
         loadConfigurationFiles();
 
@@ -35,6 +37,7 @@ public class BowSpleef extends JavaPlugin {
         Commands.getCommandList().add(new DeleteCommand());
         Commands.getCommandList().add(new LeaveCommand());
         Commands.getCommandList().add(new VoteCommand());
+        Commands.getCommandList().add(new ListCommand());
 
         getServer().getPluginManager().registerEvents(new BreakEvent(), this);
         getServer().getPluginManager().registerEvents(new DamageEvent(), this);

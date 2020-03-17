@@ -34,6 +34,7 @@ public class BowSpleef extends JavaPlugin {
         Commands.getCommandList().add(new JoinCommand());
         Commands.getCommandList().add(new DeleteCommand());
         Commands.getCommandList().add(new LeaveCommand());
+        Commands.getCommandList().add(new VoteCommand());
 
         getServer().getPluginManager().registerEvents(new BreakEvent(), this);
         getServer().getPluginManager().registerEvents(new DamageEvent(), this);

@@ -75,7 +75,6 @@ public class Arena {
     }
 
     public void setPos1(Location pos1) {
-        Bukkit.getLogger().info("Setting pos1");
         this.pos1 = pos1;
     }
 

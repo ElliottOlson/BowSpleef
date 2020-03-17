@@ -4,14 +4,13 @@ import com.bowspleef.BowSpleef;
 import com.bowspleef.api.*;
 import com.bowspleef.manager.MessageManager;
 import com.bowspleef.manager.ScoreboardManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -301,6 +300,19 @@ public class Game {
     public void disable() {
         setState(GameState.DISABLED);
         updateSign();
+    }
+
+    public void giveItems(Player player) {
+        ItemStack bow = new ItemStack(Material.BOW);
+        ItemMeta bowMeta = bow.getItemMeta();
+        bowMeta.setDisplayName(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "BOW " + ChatColor.GRAY.toString() +
+            ChatColor.ITALIC + "- Classic");
+        bow.setItemMeta(bowMeta);
+        bow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
+        bow.addEnchantment(Enchantment.ARROW_FIRE, 1);
+
+        player.getInventory().addItem(bow);
+        player.getInventory().addItem(new ItemStack(Material.ARROW));
     }
 
     public void load() {

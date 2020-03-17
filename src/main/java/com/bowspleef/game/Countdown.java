@@ -26,13 +26,14 @@ public class Countdown extends BukkitRunnable {
 
             for (Player player : game.getPlayers()) {
                 player.teleport(game.getArena().getSpawn());
+                game.giveItems(player);
             }
 
             cancel();
         }
 
         game.updateScoreboard();
-        // TODO: Update signs
+        game.updateSign();
 
         time--;
     }

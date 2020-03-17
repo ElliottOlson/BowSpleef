@@ -73,8 +73,6 @@ public class Game {
                 return false;
             }
 
-            MessageManager.msg(MessageManager.MessageType.SUCCESS, player, "Joining BowSpleef game: " + ChatColor.AQUA + name);
-
             gameModeStorage.put(player, player.getGameMode().getValue());
             foodLevelStorage.put(player, player.getFoodLevel());
             healthStorage.put(player, player.getHealth());
@@ -96,7 +94,7 @@ public class Game {
 
             // TODO: Statistics
 
-            msgAll(MessageManager.MessageType.SUCCESS, player.getName() + ChatColor.AQUA + " has joined the game! " +
+            msgAll(MessageManager.MessageType.SUCCESS, player.getDisplayName() + ChatColor.AQUA + " has joined the game! " +
                     ChatColor.GRAY + "(" + ChatColor.YELLOW + getPlayers().size() + ChatColor.GRAY + "/" +
                     ChatColor.YELLOW + maxPlayers + ChatColor.GRAY + ")");
 
@@ -471,7 +469,7 @@ public class Game {
             MessageManager.msg(type, player, message);
         }
 
-        for (Player player : getPlayers()) {
+        for (Player player : getSpectators()) {
             MessageManager.msg(type, player, message);
         }
     }

@@ -59,8 +59,24 @@ public class GameManager {
         Game game = getGame(name);
         game.disable();
 
-        // TODO: Make sure to remove from yml
+        if (arenaFile.getStringList("list.games").contains(name)) {
+            List<String> gameNames = new ArrayList<>();
+
+            for (Game g : games) {
+                if (g != game) {
+                    gameNames.add(g.getName());
+                }
+            }
+
+            arenaFile.set("list.games", gameNames);
+        }
+
+        if (arenaFile.contains("arenas." + name)) {
+            arenaFile.set("arenas." + name, null);
+        }
+
         games.remove(game);
+        BowSpleef.saveConfigurationFiles();
 
         return true;
     }

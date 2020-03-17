@@ -28,31 +28,37 @@ public class ScoreboardManager {
 
         if (game.getState() == Game.GameState.LOBBY) {
 
-            addLine(objective, ChatColor.GOLD.toString() + ChatColor.BOLD + "GAME: ", 16);
-            addLine(objective, ChatColor.WHITE + "Waiting: " + ChatColor.GREEN + game.getPlayers().size(), 15);
-            addLine(objective, ChatColor.WHITE + "Needed: " + ChatColor.RED + game.getMinPlayers(), 14);
-            addLine(objective, ChatColor.WHITE + "Votes: " + ChatColor.YELLOW + game.getVotes().size(), 13);
+            addLine(objective, " ", 16);
 
-            addLine(objective, "", 12);
+            addLine(objective, ChatColor.GOLD.toString() + ChatColor.BOLD + "GAME: ", 15);
+            addLine(objective, ChatColor.WHITE + "Waiting: " + ChatColor.GREEN + game.getPlayers().size(), 14);
+            addLine(objective, ChatColor.WHITE + "Needed: " + ChatColor.RED + game.getMinPlayers(), 13);
+            addLine(objective, ChatColor.WHITE + "Votes: " + ChatColor.YELLOW + game.getVotes().size(), 12);
+
+            addLine(objective, " ", 11);
 
             // TODO: Stats
 
         } else if (game.getState() == Game.GameState.STARTING) {
 
-            addLine(objective, ChatColor.GOLD.toString() + ChatColor.BOLD + "GAME: ", 16);
-            addLine(objective, ChatColor.WHITE + "Waiting: " + ChatColor.GREEN + game.getPlayers().size(), 15);
+            addLine(objective, " ", 16);
 
-            addLine(objective, "", 14);
+            addLine(objective, ChatColor.GOLD.toString() + ChatColor.BOLD + "GAME: ", 15);
+            addLine(objective, ChatColor.WHITE + "Waiting: " + ChatColor.GREEN + game.getPlayers().size(), 14);
+
+            addLine(objective, " ", 13);
 
             // TODO: Stats
 
         } else if (game.getState() == Game.GameState.IN_GAME) {
 
-            addLine(objective, ChatColor.GOLD.toString() + ChatColor.BOLD + "GAME: ", 16);
-            addLine(objective, ChatColor.WHITE + "Players: " + ChatColor.GREEN + game.getPlayers().size(), 15);
-            addLine(objective, ChatColor.WHITE + "Spectators: " + ChatColor.RED + game.getSpectators().size(), 14);
+            addLine(objective, " ", 16);
 
-            addLine(objective, "", 13);
+            addLine(objective, ChatColor.GOLD.toString() + ChatColor.BOLD + "GAME: ", 15);
+            addLine(objective, ChatColor.WHITE + "Players: " + ChatColor.GREEN + game.getPlayers().size(), 14);
+            addLine(objective, ChatColor.WHITE + "Spectators: " + ChatColor.RED + game.getSpectators().size(), 13);
+
+            addLine(objective, " ", 12);
 
             // TODO: Stats
 

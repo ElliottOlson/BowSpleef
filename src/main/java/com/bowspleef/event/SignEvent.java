@@ -3,6 +3,7 @@ package com.bowspleef.event;
 import com.bowspleef.game.Game;
 import com.bowspleef.game.GameManager;
 import com.bowspleef.manager.MessageManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
@@ -53,13 +54,17 @@ public class SignEvent implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
 
+        if (e.getClickedBlock() == null) {
+            return;
+        }
+
         if (e.getClickedBlock().getState() instanceof Sign) {
             Sign sign = (Sign) e.getClickedBlock().getState();
 
-            if (e.getAction() == Action.RIGHT_CLICK_BLOCK && sign.getLine(0).equalsIgnoreCase("[BowSpleef]")) {
+            if (e.getAction() == Action.RIGHT_CLICK_BLOCK && sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA + "[BowSpleef]")) {
                 String name = sign.getLine(1);
                 Game game = GameManager.getInstance().getGame(name);
-
+                
                 if (game != null) {
                     game.addPlayer(player);
                 } else {

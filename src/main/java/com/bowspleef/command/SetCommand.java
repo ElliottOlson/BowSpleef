@@ -60,12 +60,12 @@ public class SetCommand extends Command {
                             ChatColor.AQUA + name + ChatColor.GRAY + ", has been set.");
                     game.getArena().setSpectatorSpawn(player.getLocation());
                     return CommandResult.SUCCESS;
-                } else if (action.equalsIgnoreCase("enable")) {
+                } else if (action.equalsIgnoreCase("enabled")) {
                     MessageManager.msg(MessageManager.MessageType.SUCCESS, player, "The arena, " +
                             ChatColor.AQUA + name + ChatColor.GRAY + ", has been enabled.");
                     game.enable();
                     return CommandResult.SUCCESS;
-                } else if (action.equalsIgnoreCase("disable")) {
+                } else if (action.equalsIgnoreCase("disabled")) {
                     MessageManager.msg(MessageManager.MessageType.SUCCESS, player, "The arena, " +
                             ChatColor.AQUA + name + ChatColor.GRAY + ", has been disabled.");
                     game.disable();

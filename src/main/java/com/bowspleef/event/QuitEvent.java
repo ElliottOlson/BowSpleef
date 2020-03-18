@@ -15,9 +15,7 @@ public class QuitEvent implements Listener {
         Game game = GameManager.getInstance().getGame(player);
 
         if (game != null) {
-
-            // TODO: Remove player from game
-
+            game.removePlayer(player);
         }
     }
 

@@ -25,6 +25,8 @@ public class VoteCommand extends Command {
                 if (game.vote(player)) {
                     return CommandResult.SUCCESS;
                 }
+
+                return CommandResult.FAIL;
             }
 
             MessageManager.msg(MessageManager.MessageType.ERROR, player, "You have to be in a BowSpleef game to vote.");

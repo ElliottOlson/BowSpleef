@@ -4,11 +4,7 @@ import com.bowspleef.command.*;
 import com.bowspleef.event.*;
 import com.bowspleef.game.GameManager;
 import com.bowspleef.manager.ConfigurationManager;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
 
 public class BowSpleef extends JavaPlugin {
 

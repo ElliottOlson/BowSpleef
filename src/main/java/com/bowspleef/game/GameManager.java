@@ -1,6 +1,7 @@
 package com.bowspleef.game;
 
 import com.bowspleef.BowSpleef;
+import com.bowspleef.manager.ConfigurationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,7 +13,7 @@ public class GameManager {
 
     public static GameManager instance;
     private ArrayList<Game> games = new ArrayList<>();
-    private FileConfiguration arenaFile = BowSpleef.arenaFileConfiguration;
+    private FileConfiguration arenaFile = ConfigurationManager.getArenaConfig();
 
     public void loadGames() {
         games.clear();
@@ -26,7 +27,7 @@ public class GameManager {
     }
 
     public void saveGames() {
-        BowSpleef.saveConfigurationFiles();
+        ConfigurationManager.saveConfig();
 
         List<String> names = new ArrayList<>();
         for (Game game : games) {
@@ -76,7 +77,7 @@ public class GameManager {
         }
 
         games.remove(game);
-        BowSpleef.saveConfigurationFiles();
+        ConfigurationManager.saveConfig();
 
         return true;
     }

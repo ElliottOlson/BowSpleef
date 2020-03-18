@@ -3,6 +3,7 @@ package com.bowspleef;
 import com.bowspleef.command.*;
 import com.bowspleef.event.*;
 import com.bowspleef.game.GameManager;
+import com.bowspleef.manager.ConfigurationManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,19 +14,13 @@ public class BowSpleef extends JavaPlugin {
 
     private static BowSpleef instance;
 
-    public static final String PATH = "plugins/BowSpleef";
-    public static File arenaFile = new File(PATH + "/arena.yml");
-    public static FileConfiguration arenaFileConfiguration = YamlConfiguration.loadConfiguration(arenaFile);
-    public static File playerFile = new File(PATH + "/players.yml");
-    public static FileConfiguration playerFileConfiguration = YamlConfiguration.loadConfiguration(arenaFile);
-
     @Override
     public void onEnable() {
 
         instance = this;
 
-        saveConfigurationFiles();
-        loadConfigurationFiles();
+        ConfigurationManager.saveConfig();
+        ConfigurationManager.loadConfig();
 
         getCommand("bs").setExecutor(new CommandProcessor());
         Commands.getCommandList().add(new HelpCommand());
@@ -58,34 +53,9 @@ public class BowSpleef extends JavaPlugin {
     public void onDisable() {
 
         GameManager.getInstance().saveGames();
-        saveConfigurationFiles();
+        ConfigurationManager.saveConfig();
 
         getLogger().info("BowSpleef is disabled.");
-    }
-
-    public static void saveConfigurationFiles() {
-        try {
-            arenaFileConfiguration.save(arenaFile);
-            playerFileConfiguration.save(playerFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void loadConfigurationFiles() {
-        try {
-
-            if (!arenaFile.exists()) {
-                arenaFile.createNewFile();
-                playerFile.createNewFile();
-            }
-
-            arenaFileConfiguration.load(arenaFile);
-            playerFileConfiguration.load(playerFile);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static BowSpleef getInstance() {

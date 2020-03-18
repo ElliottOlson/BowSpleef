@@ -2,6 +2,7 @@ package com.bowspleef.game;
 
 import com.bowspleef.BowSpleef;
 import com.bowspleef.api.*;
+import com.bowspleef.manager.ConfigurationManager;
 import com.bowspleef.manager.MessageManager;
 import com.bowspleef.manager.ScoreboardManager;
 import org.bukkit.*;
@@ -39,7 +40,7 @@ public class Game {
 
     private Location sign;
 
-    private FileConfiguration arenaFile = BowSpleef.arenaFileConfiguration;
+    private FileConfiguration arenaFile = ConfigurationManager.getArenaConfig();
 
     public Game(String name) {
         this.name = name;
@@ -246,6 +247,8 @@ public class Game {
         GameLeaveEvent event = new GameLeaveEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
 
+        updateSign();
+
         return true;
     }
 
@@ -303,8 +306,10 @@ public class Game {
 
     public void end() {
         state = GameState.RESETTING;
+        updateSign();
         arena.regen();
         state = GameState.LOBBY;
+        updateSign();
     }
 
     public void enable() {
@@ -348,7 +353,7 @@ public class Game {
     }
 
     public void load() {
-        BowSpleef.loadConfigurationFiles();
+        ConfigurationManager.loadConfig();
 
         if (arenaFile.contains("arenas." + name + ".spawn")) {
             String world = arenaFile.getString("arenas." + name + ".spawn.world");
@@ -477,15 +482,15 @@ public class Game {
         arenaFile.set("arenas." + name + ".min-players", minPlayers);
         arenaFile.set("arenas." + name + ".max-players", maxPlayers);
 
-        BowSpleef.saveConfigurationFiles();
+        ConfigurationManager.saveConfig();
     }
 
     public void updateSign() {
         if (getSign() == null)
             return;
 
-        if (getSign().getBlock() instanceof Sign) {
-            Sign sign = (Sign) getSign().getBlock();
+        if (getSign().getBlock().getState() instanceof Sign) {
+            Sign sign = (Sign) getSign().getBlock().getState();
 
             sign.setLine(0, ChatColor.AQUA + "[BowSpleef]");
             sign.setLine(1, getName());

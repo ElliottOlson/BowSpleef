@@ -1,3 +1,5 @@
 .idea/
 BowSpleef.iml
 out/
+src/main/java/META-INF/
+target/

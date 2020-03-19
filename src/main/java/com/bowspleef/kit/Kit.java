@@ -4,8 +4,10 @@ import com.bowspleef.manager.ConfigurationManager;
 import com.bowspleef.manager.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
@@ -19,8 +21,6 @@ public abstract class Kit {
 
     public abstract int getCost();
 
-    public abstract ItemStack getBow();
-
     public abstract ItemStack getSpecialItem();
 
     public abstract void execute(Player player);
@@ -29,7 +29,16 @@ public abstract class Kit {
 
     public boolean give(Player player) {
         if (isUnlocked(player)) {
-            if (getBow() != null) player.getInventory().addItem(getBow());
+            ItemStack bow = new ItemStack(Material.BOW);
+            ItemMeta bowMeta = bow.getItemMeta();
+            bowMeta.setDisplayName(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "BOW" + ChatColor.GRAY.toString() +
+                    ChatColor.ITALIC + " - " + getName());
+            bow.setItemMeta(bowMeta);
+            bow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
+            bow.addEnchantment(Enchantment.ARROW_FIRE, 1);
+
+            player.getInventory().setItem(0, bow);
+
             if (getSpecialItem() != null) player.getInventory().addItem(getSpecialItem());
 
             player.getInventory().setItem(8, new ItemStack(Material.ARROW));

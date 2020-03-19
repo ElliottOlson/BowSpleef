@@ -17,7 +17,7 @@ public abstract class Kit {
 
     public abstract ChatColor getColor();
 
-    public abstract ItemStack getIcon();
+    public abstract Material getIcon();
 
     public abstract int getCost();
 

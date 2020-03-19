@@ -4,6 +4,7 @@ import com.bowspleef.command.*;
 import com.bowspleef.event.*;
 import com.bowspleef.game.GameManager;
 import com.bowspleef.kit.ClassicKit;
+import com.bowspleef.kit.JumperKit;
 import com.bowspleef.kit.KitManager;
 import com.bowspleef.manager.ConfigurationManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,6 +46,7 @@ public class BowSpleef extends JavaPlugin {
         GameManager.getInstance().loadGames();
 
         KitManager.getInstance().getKits().add(new ClassicKit());
+        KitManager.getInstance().getKits().add(new JumperKit());
 
         getLogger().info("BowSpleef is enabled.");
     }

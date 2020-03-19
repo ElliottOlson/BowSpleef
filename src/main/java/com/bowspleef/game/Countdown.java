@@ -1,5 +1,7 @@
 package com.bowspleef.game;
 
+import com.bowspleef.kit.Kit;
+import com.bowspleef.kit.KitManager;
 import com.bowspleef.manager.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -29,9 +31,17 @@ public class Countdown extends BukkitRunnable {
         if (time == 0) {
             game.state = Game.GameState.IN_GAME;
 
+            Kit classic = KitManager.getInstance().getKit("classic");
+
             for (Player player : game.getPlayers()) {
                 player.teleport(game.getArena().getSpawn());
-                game.giveItems(player);
+                Kit kit = KitManager.getInstance().getKit(player);
+
+                if (kit != null) {
+                    kit.give(player);
+                } else {
+                    classic.give(player);
+                }
             }
 
             cancel();

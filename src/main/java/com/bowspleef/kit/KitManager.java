@@ -21,6 +21,16 @@ public class KitManager {
         return null;
     }
 
+    public Kit getKit(String name) {
+        for (Kit kit : getKits()) {
+            if (kit.getName().equalsIgnoreCase(name)) {
+                return kit;
+            }
+        }
+
+        return null;
+    }
+
     public boolean setKit(Player player, Kit kit) {
         if (player == null || kit == null)
             return false;

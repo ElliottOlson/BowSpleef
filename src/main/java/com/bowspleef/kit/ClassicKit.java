@@ -18,8 +18,8 @@ public class ClassicKit extends Kit {
     }
 
     @Override
-    public ItemStack getIcon() {
-        return new ItemStack(Material.BOW);
+    public Material getIcon() {
+        return Material.BOW;
     }
 
     @Override

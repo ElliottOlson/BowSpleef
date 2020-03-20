@@ -7,7 +7,9 @@ import com.bowspleef.kit.ClassicKit;
 import com.bowspleef.kit.JumperKit;
 import com.bowspleef.kit.KitManager;
 import com.bowspleef.manager.ConfigurationManager;
+import net.gravitydevelopment.updater.Updater;
 import org.bukkit.plugin.java.JavaPlugin;
+import sun.security.krb5.Config;
 
 public class BowSpleef extends JavaPlugin {
 
@@ -47,6 +49,17 @@ public class BowSpleef extends JavaPlugin {
 
         KitManager.getInstance().getKits().add(new ClassicKit());
         KitManager.getInstance().getKits().add(new JumperKit());
+
+        if (ConfigurationManager.getStatsConfig().contains("updater.status")) {
+            boolean status = ConfigurationManager.getStatsConfig().getBoolean("updater.status");
+
+            if (status) {
+                Updater updater = new Updater(this, 56977, this.getFile(), Updater.UpdateType.DEFAULT, false);
+            }
+        } else {
+            ConfigurationManager.getStatsConfig().set("updater.status", true);
+            ConfigurationManager.saveConfig();
+        }
 
         getLogger().info("BowSpleef is enabled.");
     }

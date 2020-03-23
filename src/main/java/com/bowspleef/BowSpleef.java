@@ -44,6 +44,8 @@ public class BowSpleef extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlaceEvent(), this);
         getServer().getPluginManager().registerEvents(new QuitEvent(), this);
         getServer().getPluginManager().registerEvents(new SignEvent(), this);
+        getServer().getPluginManager().registerEvents(new EntityTargetEvent(), this);
+        getServer().getPluginManager().registerEvents(new ArrowFireEvent(), this);
 
         GameManager.getInstance().loadGames();
 

@@ -3,6 +3,7 @@ package com.bowspleef.game;
 import com.bowspleef.kit.Kit;
 import com.bowspleef.kit.KitManager;
 import com.bowspleef.manager.MessageManager;
+import com.bowspleef.manager.StatManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -42,6 +43,8 @@ public class Countdown extends BukkitRunnable {
                 } else {
                     classic.give(player);
                 }
+
+                StatManager.getInstance().increment(player, StatManager.StatType.GAMES_PLAYED);
             }
 
             cancel();

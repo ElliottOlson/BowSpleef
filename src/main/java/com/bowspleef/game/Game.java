@@ -294,6 +294,15 @@ public class Game {
         return true;
     }
 
+    public boolean addToQueue(Player player) {
+        if (GameManager.getInstance().getGame(player) != null) {
+            MessageManager.msg(MessageManager.MessageType.ERROR, player, "You are already currently in a game.");
+            return false;
+        }
+
+        return true;
+    }
+
     public void start() {
         state = GameState.STARTING;
 

@@ -2,25 +2,27 @@ package com.bowspleef.manager;
 
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class StatManager {
 
     private static StatManager instance;
 
-    public int getStat(Player player, StatType statType) {
-        if (ConfigurationManager.getStatsConfig().contains(player.getUniqueId().toString() + "." + statType.getName())) {
-            return ConfigurationManager.getStatsConfig().getInt(player.getUniqueId().toString() + "." + statType.getName());
+    public int getStat(UUID uuid, StatType statType) {
+        if (ConfigurationManager.getStatsConfig().contains(uuid.toString() + "." + statType.getName())) {
+            return ConfigurationManager.getStatsConfig().getInt(uuid.toString() + "." + statType.getName());
         }
 
         return 0;
     }
 
-    public void increment(Player player, StatType statType) {
-        int currentValue = getStat(player, statType);
-        setStat(player, statType, currentValue+1);
+    public void increment(UUID uuid, StatType statType) {
+        int currentValue = getStat(uuid, statType);
+        setStat(uuid, statType, currentValue+1);
     }
 
-    public void setStat(Player player, StatType statType, int value) {
-        ConfigurationManager.getStatsConfig().set(player.getUniqueId().toString() + "." + statType.getName(), value);
+    public void setStat(UUID uuid, StatType statType, int value) {
+        ConfigurationManager.getStatsConfig().set(uuid.toString() + "." + statType.getName(), value);
     }
 
     public static StatManager getInstance() {

@@ -9,7 +9,6 @@ import com.bowspleef.kit.KitManager;
 import com.bowspleef.manager.ConfigurationManager;
 import net.gravitydevelopment.updater.Updater;
 import org.bukkit.plugin.java.JavaPlugin;
-import sun.security.krb5.Config;
 
 public class BowSpleef extends JavaPlugin {
 
@@ -34,6 +33,7 @@ public class BowSpleef extends JavaPlugin {
         Commands.getCommandList().add(new LeaveCommand());
         Commands.getCommandList().add(new VoteCommand());
         Commands.getCommandList().add(new ListCommand());
+        Commands.getCommandList().add(new StatCommand());
 
         getServer().getPluginManager().registerEvents(new BreakEvent(), this);
         getServer().getPluginManager().registerEvents(new DamageEvent(), this);

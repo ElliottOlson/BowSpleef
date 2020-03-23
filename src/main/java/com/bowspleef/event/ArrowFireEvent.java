@@ -15,7 +15,7 @@ public class ArrowFireEvent implements Listener {
             Player player = (Player) e.getEntity().getShooter();
 
             if (GameManager.getInstance().getGame(player) != null) {
-                StatManager.getInstance().increment(player, StatManager.StatType.ARROW_SHOT);
+                StatManager.getInstance().increment(player.getUniqueId(), StatManager.StatType.ARROW_SHOT);
             }
         }
     }

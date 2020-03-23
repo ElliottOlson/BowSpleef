@@ -44,7 +44,7 @@ public class Countdown extends BukkitRunnable {
                     classic.give(player);
                 }
 
-                StatManager.getInstance().increment(player, StatManager.StatType.GAMES_PLAYED);
+                StatManager.getInstance().increment(player.getUniqueId(), StatManager.StatType.GAMES_PLAYED);
             }
 
             cancel();

@@ -179,7 +179,7 @@ public class Game {
                 msgAll(MessageManager.MessageType.SUB_INFO, player.getName() + ChatColor.GRAY + " has lost!");
             } else if (players.size() == 1 && getState() == GameState.IN_GAME) {
                 MessageManager.msg(MessageManager.MessageType.SUCCESS, player, "You won this round of BowSpleef!"); // TODO: Look into
-                StatManager.getInstance().increment(player, StatManager.StatType.GAMES_WON);
+                StatManager.getInstance().increment(player.getUniqueId(), StatManager.StatType.GAMES_WON);
             } else {
                 MessageManager.msg(MessageManager.MessageType.SUB_INFO, player, "You have left the game.");
             }

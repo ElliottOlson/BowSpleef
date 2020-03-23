@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://media.forgecdn.net/avatars/73/455/636163579078227940.png">
+</p>
+
 # BowSpleef
 
 BowSpleef is a Minecraft minigame where the floor is made out of TNT, and you can shoot the floor with bows and arrows so that it drops down. The objective is to shoot the TNT and cause your opponents to fall into the void.   

@@ -13,7 +13,6 @@ public class StatCommand extends Command {
 
     public StatCommand() {
         setName("stat");
-        setAlias("");
         setPermission("bowspleef.player.stat");
         setBePlayer(true);
         setDescription("View the stats of a BowSpleef player.");
